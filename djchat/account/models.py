@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 
-class Account(models.Model):
+class Account(AbstractUser):
     pass
     # other fields here
