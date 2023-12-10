@@ -1,4 +1,5 @@
-import { Box, CssBaseline, Typography } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
+import PrimaryAppBar from "./templates/PrimaryAppBar";
 
 export const Home = () => {
   return (
@@ -9,7 +10,7 @@ export const Home = () => {
         }}
       >
         <CssBaseline />
-        Home
+        <PrimaryAppBar />
       </Box>
     </>
   );
