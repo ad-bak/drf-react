@@ -6,17 +6,20 @@ import {
   useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import DrawerToggle from "../../components/PrimaryDraw/DrawerToggle";
 
 const PrimaryDraw = () => {
   const theme = useTheme();
-  const below600 = useMediaQuery("(max-width:600px)");
+  const below600 = useMediaQuery("(max-width:599px)");
   const [open, setOpen] = useState(!below600);
-
-  console.log("below600", below600);
 
   useEffect(() => {
     setOpen(!below600);
   }, [below600]);
+
+  const toggleDrawer = () => {
+    setOpen((prev) => !prev);
+  };
 
   return (
     <Drawer
@@ -31,13 +34,20 @@ const PrimaryDraw = () => {
       }}
     >
       <Box>
-        <Box>
-          {Array.from({ length: 100 }).map((_, index) => (
-            <Box>
-              <Typography variant="h6" component="div" sx={{ p: 2 }}>
-                {`Menu Item ${index + 1}`}
-              </Typography>
-            </Box>
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            p: 0,
+            width: open ? "auto" : "100%",
+          }}
+        >
+          <DrawerToggle onClick={toggleDrawer} />
+          {[...Array(50)].map((_, index) => (
+            <Typography key={index} paragraph>
+              {index + 1}
+            </Typography>
           ))}
         </Box>
       </Box>

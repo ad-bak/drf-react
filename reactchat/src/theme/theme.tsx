@@ -30,7 +30,7 @@ export const createMuiTheme = () => {
       height: 50,
     },
     primaryDraw: {
-      width: 240,
+      width: 170,
       closed: 70,
     },
     components: {
