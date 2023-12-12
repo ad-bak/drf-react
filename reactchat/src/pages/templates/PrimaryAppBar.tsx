@@ -6,18 +6,28 @@ import {
   Link,
   Toolbar,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const PrimaryAppBar = () => {
   const [sideMenu, setSideMenu] = useState(false);
   const theme = useTheme();
 
-  const toggleDrawer = (open: boolean) => {
-    setSideMenu(!open);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.up("sm"));
+
+  useEffect(() => {
+    if (isSmallScreen && sideMenu) {
+      setSideMenu(false);
+    }
+  }, [isSmallScreen, sideMenu]);
+
+  const toggleDrawer = () => {
+    setSideMenu((prev) => !prev);
   };
+
   return (
     <AppBar
       sx={{
@@ -43,15 +53,15 @@ const PrimaryAppBar = () => {
             aria-label="open drawer"
             edge="start"
             sx={{ mr: 2 }}
-            onClick={() => toggleDrawer(sideMenu)}
+            onClick={toggleDrawer}
           >
             <MenuIcon />
           </IconButton>
         </Box>
-        <Drawer anchor="left" open={sideMenu}>
-          {[...Array(100)].map((_, index) => (
+        <Drawer anchor="left" open={sideMenu} onClose={toggleDrawer}>
+          {Array.from({ length: 100 }).map((_, index) => (
             <Box
-              key={index}
+              key={`menu-item-${index}`}
               sx={{
                 width: 250,
                 height: "100%",
@@ -59,7 +69,7 @@ const PrimaryAppBar = () => {
               }}
             >
               <Typography variant="h6" component="div" sx={{ p: 2 }}>
-                Menu
+                {`Menu Item ${index + 1}`}
               </Typography>
             </Box>
           ))}
