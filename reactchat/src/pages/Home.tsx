@@ -2,6 +2,7 @@ import { Box, CssBaseline } from "@mui/material";
 import PrimaryAppBar from "./templates/PrimaryAppBar";
 import PrimaryDraw from "./templates/PrimaryDraw";
 import SecondaryDraw from "./templates/SecondaryDraw";
+import Main from "./templates/Main";
 
 export const Home = () => {
   const dummyDataForPrimaryDraw = [...Array(100)].map((_, index) => (
@@ -20,6 +21,7 @@ export const Home = () => {
         <PrimaryAppBar />
         <PrimaryDraw>{dummyDataForPrimaryDraw}</PrimaryDraw>
         <SecondaryDraw />
+        <Main />
       </Box>
     </>
   );
