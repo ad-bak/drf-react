@@ -7,8 +7,6 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import useCrud from "../../hooks/useCrud";
-import { useEffect } from "react";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import { MEDIA_URL } from "../../config";
@@ -21,17 +19,15 @@ interface Server {
   icon: string;
 }
 
+interface ServerChannelsProps {
+  data: Server[];
+}
+
 type Props = {
   open: boolean;
 };
 
-const PopularChannels: React.FC<Props> = ({ open }) => {
-  const { dataCRUD, fetchData } = useCrud<Server>([], "/server/select/");
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
+const UserServers: React.FC<Props & ServerChannelsProps> = ({ open, data }) => {
   return (
     <>
       <Box
@@ -44,11 +40,11 @@ const PopularChannels: React.FC<Props> = ({ open }) => {
         }}
       >
         <Typography sx={{ display: open ? "block" : "none" }}>
-          Popular
+          Servers
         </Typography>
       </Box>
       <List>
-        {dataCRUD.map((item) => (
+        {data.map((item) => (
           <ListItem
             key={item.id}
             disablePadding
@@ -112,4 +108,4 @@ const PopularChannels: React.FC<Props> = ({ open }) => {
     </>
   );
 };
-export default PopularChannels;
+export default UserServers;

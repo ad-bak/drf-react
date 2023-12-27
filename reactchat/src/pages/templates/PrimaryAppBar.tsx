@@ -7,10 +7,12 @@ import {
   Toolbar,
   Typography,
   useMediaQuery,
-  useTheme,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useEffect, useState } from "react";
+import ExploreCategories from "../../components/SecondaryDraw/ExploreCategories";
+import AccountButton from "../../components/PrimaryAppBar/AccountButton";
 
 const PrimaryAppBar = () => {
   const [sideMenu, setSideMenu] = useState(false);
@@ -22,16 +24,34 @@ const PrimaryAppBar = () => {
     if (isSmallScreen && sideMenu) {
       setSideMenu(false);
     }
-  }, [isSmallScreen, sideMenu]);
+  }, [isSmallScreen]);
 
-  const toggleDrawer = () => {
-    setSideMenu((prev) => !prev);
-  };
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+      setSideMenu(open);
+    };
+
+  const list = () => (
+    <Box
+      sx={{ paddingTop: `${theme.primaryAppBar.height}px`, minWidth: 200 }}
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <ExploreCategories />
+    </Box>
+  );
 
   return (
     <AppBar
       sx={{
-        zIndex: (theme) => theme.zIndex.drawer + 1,
+        zIndex: (theme) => theme.zIndex.drawer + 2,
         backgroundColor: theme.palette.background.default,
         borderBottom: `1px solid ${theme.palette.divider}`,
       }}
@@ -43,37 +63,22 @@ const PrimaryAppBar = () => {
           minHeight: theme.primaryAppBar.height,
         }}
       >
-        <Box
-          sx={{
-            display: { xs: "block", sm: "none" },
-          }}
-        >
+        <Box sx={{ display: { xs: "block", sm: "none" } }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
+            onClick={toggleDrawer(true)}
             sx={{ mr: 2 }}
-            onClick={toggleDrawer}
           >
             <MenuIcon />
           </IconButton>
         </Box>
-        <Drawer anchor="left" open={sideMenu} onClose={toggleDrawer}>
-          {Array.from({ length: 100 }).map((_, index) => (
-            <Box
-              key={`menu-item-${index}`}
-              sx={{
-                width: 250,
-                height: "100%",
-                backgroundColor: theme.palette.background.paper,
-              }}
-            >
-              <Typography variant="h6" component="div" sx={{ p: 2 }}>
-                {`Menu Item ${index + 1}`}
-              </Typography>
-            </Box>
-          ))}
+
+        <Drawer anchor="left" open={sideMenu} onClose={toggleDrawer(false)}>
+          {list()}
         </Drawer>
+
         <Link href="/" underline="none" color="inherit">
           <Typography
             variant="h6"
@@ -84,9 +89,10 @@ const PrimaryAppBar = () => {
             DJCHAT
           </Typography>
         </Link>
+        <Box sx={{ flexGrow: 1 }}></Box>
+        <AccountButton />
       </Toolbar>
     </AppBar>
   );
 };
-
 export default PrimaryAppBar;

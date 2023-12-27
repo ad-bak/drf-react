@@ -12,7 +12,7 @@ import useCrud from "../../hooks/useCrud";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-import { MEDIA_URL } from "../../../config";
+import { MEDIA_URL } from "../../config";
 
 interface Category {
   id: number;
@@ -24,7 +24,10 @@ interface Category {
 const ExploreCategories = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
-  const { dataCRUD, fetchData } = useCrud<Category>([], "/server/category/");
+  const { dataCRUD, error, isLoading, fetchData } = useCrud<Category>(
+    [],
+    "/server/category/"
+  );
 
   useEffect(() => {
     fetchData();

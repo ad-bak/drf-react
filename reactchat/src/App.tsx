@@ -1,27 +1,50 @@
-import {
-  Route,
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
-import { Home } from "./pages/Home";
-import { ThemeProvider } from "@emotion/react";
-import { createMuiTheme } from "./theme/theme";
+import Home from "./pages/Home";
+import Server from "./pages/Server";
+import Explore from "./pages/Explore";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import ToggleColorMode from "./components/ToggleColorMode";
+import Login from "./pages/Login";
+import { AuthServiceProvider } from "./context/AuthContext";
+import TestLogin from "./pages/TestLogin";
+import ProtectedRoute from "./services/ProtectedRoute";
+import Register from "./pages/Register";
+import { MembershipProvider } from "./context/MemberContext";
+import MembershipCheck from "./components/Membership/MembershipCheck";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route>
-      <Route path="/" element={<Home />} />
-    </Route>
-  )
-);
-
-const App: React.FC = () => {
-  const theme = createMuiTheme();
+const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />;
-    </ThemeProvider>
+    <BrowserRouter>
+      <AuthServiceProvider>
+        <ToggleColorMode>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route
+              path="/server/:serverId/:channelId?"
+              element={
+                <ProtectedRoute>
+                  <MembershipProvider>
+                    <MembershipCheck>
+                      <Server />
+                    </MembershipCheck>
+                  </MembershipProvider>
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/explore/:categoryName" element={<Explore />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/testlogin"
+              element={
+                <ProtectedRoute>
+                  <TestLogin />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </ToggleColorMode>
+      </AuthServiceProvider>
+    </BrowserRouter>
   );
 };
 

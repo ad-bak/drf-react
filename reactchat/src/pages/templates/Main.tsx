@@ -1,6 +1,12 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { ReactNode } from "react";
 
-const Main = () => {
+type Props = {
+  children: ReactNode;
+};
+
+const Main: React.FC<Props> = ({ children }) => {
   const theme = useTheme();
   return (
     <Box
@@ -8,15 +14,11 @@ const Main = () => {
         flexGrow: 1,
         mt: `${theme.primaryAppBar.height}px`,
         height: `calc(100vh - ${theme.primaryAppBar.height}px )`,
+        overflow: "hidden",
       }}
     >
-      {[...Array(100)].map((_, index) => (
-        <Typography key={index} variant="h6">
-          {index + 1}
-        </Typography>
-      ))}
+      {children}
     </Box>
   );
 };
-
 export default Main;
