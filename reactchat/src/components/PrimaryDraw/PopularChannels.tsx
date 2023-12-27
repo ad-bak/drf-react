@@ -26,10 +26,7 @@ interface Server {
 }
 
 const PopularChannels: React.FC<Props> = ({ open }) => {
-  const { dataCRUD, error, isLoading, fetchData } = useCrud<Server>(
-    [],
-    "/server/select/"
-  );
+  const { dataCRUD, fetchData } = useCrud<Server>([], "/server/select/");
 
   useEffect(() => {
     fetchData();
@@ -44,7 +41,6 @@ const PopularChannels: React.FC<Props> = ({ open }) => {
           display: "flex",
           alignItems: "center",
           flex: "1 1 100%",
-          backgroundColor: "primary.main",
         }}
       >
         <Typography sx={{ display: open ? "block" : "none" }}>

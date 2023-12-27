@@ -59,7 +59,6 @@ const PrimaryDraw: React.FC<Props> = ({ children }) => {
       }}
     >
       <Box>
-        -
         <Box
           sx={{
             position: "absolute",
