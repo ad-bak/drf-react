@@ -1,17 +1,25 @@
 import { Drawer as MuiDrawer, useMediaQuery, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import React, { useEffect, useState } from "react";
+import {
+  Children,
+  ReactElement,
+  ReactNode,
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useState,
+} from "react";
 import DrawerToggle from "../../components/PrimaryDraw/DrawerToggle";
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 type ChildProps = {
   open: boolean;
 };
 
-type ChildElement = React.ReactElement<ChildProps>;
+type ChildElement = ReactElement<ChildProps>;
 
 const PrimaryDraw: React.FC<Props> = ({ children }) => {
   const theme = useTheme();
@@ -67,9 +75,9 @@ const PrimaryDraw: React.FC<Props> = ({ children }) => {
             handleDrawerOpen={handleDrawerOpen}
           />
         </Box>
-        {React.Children.map(children, (child) => {
-          return React.isValidElement(child)
-            ? React.cloneElement(child as ChildElement, { open })
+        {Children.map(children, (child) => {
+          return isValidElement(child)
+            ? cloneElement(child as ChildElement, { open })
             : child;
         })}
       </Box>

@@ -1,43 +1,38 @@
-import { useState } from "react";
 import { BASE_URL } from "../../config";
 import useAxiosWithInterceptor from "../helpers/jwtinterceptor";
-import axios from "axios";
+import { useEffect, useState } from "react";
 
-interface IUseCrud<T> {
-  dataCrud: T[];
+interface IuseCrud<T> {
+  dataCRUD: T[];
   fetchData: () => Promise<void>;
   error: Error | null;
   isLoading: boolean;
 }
 
-const useCrud = <T>(initialData: T[], apiURL: string): IUseCrud<T> => {
+const useCrud = <T>(initalData: T[], apiURL: string): IuseCrud<T> => {
   const jwtAxios = useAxiosWithInterceptor();
-  const [dataCrud, setDataCrud] = useState<T[]>(initialData);
+  const [dataCRUD, setDataCRUD] = useState<T[]>(initalData);
   const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchData = async () => {
-    setLoading(true);
+    setIsLoading(true);
     try {
       const response = await jwtAxios.get(`${BASE_URL}${apiURL}`, {});
       const data = response.data;
-      setDataCrud(data);
+      setDataCRUD(data);
       setError(null);
-    } catch (error: unknown) {
-      if (
-        axios.isAxiosError(error) &&
-        error.response &&
-        error.response.status === 400
-      ) {
+      setIsLoading(false);
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.status === 400) {
         setError(new Error("400"));
-        throw error;
-      } else {
-        // Handle other types of errors or rethrow the error
-        setError(new Error("An unexpected error occurred"));
       }
+      setIsLoading(false);
+      throw error;
     }
   };
-  return { fetchData, dataCrud, error, isLoading };
-};
 
+  return { fetchData, dataCRUD, error, isLoading };
+};
 export default useCrud;

@@ -3,23 +3,17 @@ import PrimaryAppBar from "./templates/PrimaryAppBar";
 import PrimaryDraw from "./templates/PrimaryDraw";
 import SecondaryDraw from "./templates/SecondaryDraw";
 import Main from "./templates/Main";
+import PopularChannels from "../components/PrimaryDraw/PopularChannels";
 
 export const Home = () => {
-  const dummyDataForPrimaryDraw = [...Array(100)].map((_, index) => (
-    <Box key={index} sx={{ p: 1 }}>
-      item {index + 1}
-    </Box>
-  ));
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-        }}
-      >
+      <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <PrimaryAppBar />
-        <PrimaryDraw>{dummyDataForPrimaryDraw}</PrimaryDraw>
+        <PrimaryDraw>
+          <PopularChannels open={false} />
+        </PrimaryDraw>
         <SecondaryDraw />
         <Main />
       </Box>
