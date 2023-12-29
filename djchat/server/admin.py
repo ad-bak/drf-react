@@ -1,11 +1,7 @@
 from django.contrib import admin
-from .models import Channel, Server, Category
 
-
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name", "description")
-
+from .models import Category, Channel, Server
 
 admin.site.register(Channel)
 admin.site.register(Server)
-admin.site.register(Category, CategoryAdmin)
+admin.site.register(Category)
