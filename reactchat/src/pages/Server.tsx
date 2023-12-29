@@ -29,8 +29,7 @@ const Server = () => {
     fetchData();
   }, []);
 
-  // Check if the channelId is valid by searching for it in the data fetched from the API
-  const isChannel = (): Boolean => {
+  const isChannel = (): boolean => {
     if (!channelId) {
       return true;
     }
